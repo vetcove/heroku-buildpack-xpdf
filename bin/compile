@@ -5,16 +5,12 @@ INSTALL_DIR=$BUILD_DIR/vendor/xpdf/
 
 ENVSCRIPT=$BUILD_DIR/.profile.d/xpdf.sh
 
-XPDF_DIR=${HOME}/vendor/xpdf/xpdf
-
-echo "Untarring xpdf.tar.gz into ${INSTALL_DIR}"
+XPDF_DIR=${HOME}/vendor/xpdf
 
 mkdir -p $INSTALL_DIR
-tar -zxvf xpdf.tar.gz -C $INSTALL_DIR
+tar -zxf xpdf.tar.gz -C $INSTALL_DIR
 
-echo "Complete!"
-
-echo "Building runtime environment for xpdf"
+echo "Building runtime environment for xpdf into ${XPDF_DIR}"
 mkdir -p $BUILD_DIR/.profile.d
-echo "export PATH=\"$XPDF_DIR/bin64:\$PATH\"" > $ENVSCRIPT
+echo "export PATH=\"$XPDF_DIR:\$PATH\"" > $ENVSCRIPT
 
