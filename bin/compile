@@ -14,7 +14,7 @@ mkdir -p $INSTALL_DIR
 echo "Unpacking XPDF binaries to $INSTALL_DIR..."
 tar -zxf xpdf.tar.gz -C $INSTALL_DIR
 
-copied=$(ls -l $INSTALL_DIR | awk '{print $9}')
+copied=$(ls -l $INSTALL_DIR | awk '{print $9}' ORS=" ")
 echo "Copied files: $copied"
 
 echo "Building runtime environment for xpdf into ${XPDF_DIR}"
