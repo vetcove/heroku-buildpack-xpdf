@@ -7,8 +7,15 @@ ENVSCRIPT=$BUILD_DIR/.profile.d/xpdf.sh
 
 XPDF_DIR=${HOME}/vendor/xpdf
 
+echo "Adding XPDF tools.."
+echo "Creating install directory at $INSTALL_DIR..."
 mkdir -p $INSTALL_DIR
+
+echo "Unpacking XPDF binaries to $INSTALL_DIR..."
 tar -zxf xpdf.tar.gz -C $INSTALL_DIR
+
+copied=$(ls -l $INSTALL_DIR | awk '{print $9}')
+echo "Copied files: $copied"
 
 echo "Building runtime environment for xpdf into ${XPDF_DIR}"
 mkdir -p $BUILD_DIR/.profile.d
