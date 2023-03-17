@@ -1,7 +1,7 @@
 #!/bin/bash
 BUILD_DIR=$1
 
-INSTALL_DIR=$BUILD_DIR/vendor/xpdf/
+INSTALL_DIR=$BUILD_DIR/vendor/xpdf
 
 ENVSCRIPT=$BUILD_DIR/.profile.d/xpdf.sh
 
@@ -11,10 +11,24 @@ echo "Adding XPDF tools.."
 echo "Creating install directory at $INSTALL_DIR..."
 mkdir -p $INSTALL_DIR
 
-echo "Unpacking XPDF binaries to $INSTALL_DIR..."
-tar -zxf xpdf.tar.gz -C $INSTALL_DIR
+version_arr=('3.03' '4.04')
+len=${#version_arr[@]}
 
-copied=$(ls -l $INSTALL_DIR | awk '{print $9}' ORS=" ")
+for version in "${version_arr[@]}" 
+do
+    echo "Unpacking XPDF v.$version binaries to $INSTALL_DIR..."
+    file_target="xpdf-$version.tar.gz"
+    target_dir="$INSTALL_DIR/$version"
+    mkdir $target_dir
+    tar -zxf $file_target -C $target_dir
+done
+
+# Historically we only had version 3.03, which went into the main $INSTALL_DIR, 
+# so we'll leave for backward-compatibility the binaries we used from it.
+cp $INSTALL_DIR/3.03/pdftotext $INSTALL_DIR/
+cp $INSTALL_DIR/3.03/pdftopng4 $INSTALL_DIR/
+
+copied=$(ls -lR $INSTALL_DIR | awk '{print $9}' ORS=" ")
 echo "Copied files: $copied"
 
 echo "Building runtime environment for xpdf into ${XPDF_DIR}"
